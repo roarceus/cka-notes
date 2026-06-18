@@ -35,7 +35,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Taints and Tolerations
 - [x] Node Selectors
 - [x] Node Affinity
-- [ ] Resource Requirements and Limits
+- [x] Resource Requirements and Limits
 - [ ] DaemonSets
 - [ ] Static Pods
 - [ ] Multiple Schedulers
