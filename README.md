@@ -36,8 +36,8 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Node Selectors
 - [x] Node Affinity
 - [x] Resource Requirements and Limits
-- [ ] DaemonSets
-- [ ] Static Pods
+- [x] DaemonSets
+- [x] Static Pods
 - [ ] Multiple Schedulers
 - [ ] Scheduler Profiles
 
