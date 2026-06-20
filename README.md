@@ -39,7 +39,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] DaemonSets
 - [x] Static Pods
 - [x] Priority Classes
-- [ ] Multiple Schedulers
+- [x] Multiple Schedulers
 - [ ] Scheduler Profiles
 
 ### 03 — Logging and Monitoring
