@@ -38,6 +38,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Resource Requirements and Limits
 - [x] DaemonSets
 - [x] Static Pods
+- [x] Priority Classes
 - [ ] Multiple Schedulers
 - [ ] Scheduler Profiles
 
