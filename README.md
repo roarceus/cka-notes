@@ -40,7 +40,9 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Static Pods
 - [x] Priority Classes
 - [x] Multiple Schedulers
-- [ ] Scheduler Profiles
+- [x] Scheduler Profiles
+- [ ] Admission Controllers
+- [ ] Validation and Mutating Admision Controllers
 
 ### 03 — Logging and Monitoring
 - [ ] Monitor Cluster Components
