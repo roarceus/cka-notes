@@ -44,7 +44,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Admission Controllers
 
 ### 03 — Logging and Monitoring
-- [ ] Monitor Cluster Components
+- [x] Monitor Cluster Components
 - [ ] Application Logs
 
 ### 04 — Application Lifecycle Management
