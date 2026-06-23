@@ -45,7 +45,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 
 ### 03 — Logging and Monitoring
 - [x] Monitor Cluster Components
-- [ ] Application Logs
+- [x] Managing Application Logs
 
 ### 04 — Application Lifecycle Management
 - [ ] Rolling Updates and Rollbacks
