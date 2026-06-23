@@ -66,6 +66,55 @@ After editing the manifest, the API server pod restarts automatically.
 
 ---
 
+---
+
+## Mutating vs Validating Admission Controllers
+
+| Type | What it does | Runs |
+|---|---|---|
+| **Mutating** | Modifies the object before persisting (e.g. injects defaults, adds labels) | First |
+| **Validating** | Validates the object and allows or rejects it | After mutating |
+
+> Mutating runs first so that validating controllers see the fully modified object. If any controller rejects the request, the whole request is denied.
+
+![Mutating and Validating controller flow](https://kodekloud.com/kk-media/image/upload/v1752869883/notes-assets/images/CKA-Certification-Course-Certified-Kubernetes-Administrator-2025-Updates-Validating-and-Mutating-Admission-Controllers/frame_140.jpg)
+
+---
+
+## Webhook Admission Controllers
+
+For custom logic beyond built-in controllers, Kubernetes supports external **admission webhooks**. The API server sends an `AdmissionReview` JSON object to your webhook server, which responds with allow/deny.
+
+Two webhook types:
+- `MutatingWebhookConfiguration`
+- `ValidatingWebhookConfiguration`
+
+### ValidatingWebhookConfiguration example
+
+```yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: pod-policy.example.com
+webhooks:
+- name: pod-policy.example.com
+  clientConfig:
+    service:
+      namespace: webhook-namespace
+      name: webhook-service    # webhook server running inside the cluster
+    caBundle: "Ci0tLS0tQk..."  # TLS cert bundle
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    operations: ["CREATE"]     # triggers on pod creation
+    resources: ["pods"]
+    scope: "Namespaced"
+```
+
+The webhook server receives an `AdmissionReview` request and returns `"allowed": true/false`.
+
+---
+
 > [!tip] CKA Exam
 > - Admission controllers sit **after** RBAC in the request chain — they can inspect and modify object content
 > - Enable/disable via `--enable-admission-plugins` / `--disable-admission-plugins` flags on the API server

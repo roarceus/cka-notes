@@ -42,7 +42,6 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Multiple Schedulers
 - [x] Scheduler Profiles
 - [x] Admission Controllers
-- [ ] Validation and Mutating Admision Controllers
 
 ### 03 — Logging and Monitoring
 - [ ] Monitor Cluster Components
