@@ -48,7 +48,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Managing Application Logs
 
 ### 04 — Application Lifecycle Management
-- [ ] Rolling Updates and Rollbacks
+- [x] Rolling Updates and Rollbacks
 - [ ] Commands and Arguments
 - [ ] Environment Variables
 - [ ] ConfigMaps
