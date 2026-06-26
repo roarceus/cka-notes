@@ -51,7 +51,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Rolling Updates and Rollbacks
 - [x] Commands and Arguments in Docker and Kubernetes
 - [x] Environment Variables
-- [ ] ConfigMaps
+- [x] ConfigMaps
 - [ ] Secrets
 - [ ] Init Containers
 - [ ] Self-Healing Applications
