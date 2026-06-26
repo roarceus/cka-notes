@@ -50,7 +50,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 ### 04 — Application Lifecycle Management
 - [x] Rolling Updates and Rollbacks
 - [x] Commands and Arguments in Docker and Kubernetes
-- [ ] Environment Variables
+- [x] Environment Variables
 - [ ] ConfigMaps
 - [ ] Secrets
 - [ ] Init Containers
