@@ -119,3 +119,75 @@ cat /opt/app-secret-volumes/DB_Password
 > - `kubectl get secret -o yaml` to see encoded values; pipe through `base64 --decode` to read them
 > - Secrets are **Opaque** type by default — other types exist (e.g. `kubernetes.io/tls`, `kubernetes.io/dockerconfigjson`)
 > - Never store secret YAML files in public git repos — the Base64 is trivially reversible
+
+---
+
+## Encryption at Rest
+
+By default, Secrets are stored **unencrypted** in etcd (only Base64-encoded). Anyone with etcd access can read them.
+
+### Check if encryption is already enabled
+```bash
+ps -aux | grep kube-api | grep encryption-provider-config
+```
+
+### Enable encryption at rest
+
+**Step 1 — Generate a 32-byte key**
+```bash
+head -c 32 /dev/urandom | base64
+```
+
+**Step 2 — Create encryption config file**
+```yaml
+# /etc/kubernetes/enc/enc.yaml
+apiVersion: apiserver.config.k8s.io/v1
+kind: EncryptionConfiguration
+resources:
+- resources:
+  - secrets
+  providers:
+  - aescbc:
+      keys:
+      - name: key1
+        secret: <your-base64-32-byte-key>
+  - identity: {}    # fallback for reading unencrypted secrets
+```
+
+**Step 3 — Update kube-apiserver manifest**
+
+Edit `/etc/kubernetes/manifests/kube-apiserver.yaml`:
+```yaml
+spec:
+  containers:
+  - command:
+    - kube-apiserver
+    - --encryption-provider-config=/etc/kubernetes/enc/enc.yaml  # add this
+    volumeMounts:
+    - name: enc
+      mountPath: /etc/kubernetes/enc
+      readOnly: true
+  volumes:
+  - name: enc
+    hostPath:
+      path: /etc/kubernetes/enc
+      type: DirectoryOrCreate
+```
+
+API server restarts automatically after saving.
+
+**Step 4 — Re-encrypt existing secrets**
+```bash
+# Secrets created before enabling encryption are still unencrypted — force update:
+kubectl get secret --all-namespaces -o json | kubectl replace -f -
+```
+
+**Verify encryption in etcd**
+```bash
+ETCDCTL_API=3 etcdctl \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  get /registry/secrets/default/my-secret | hexdump -C
+# Encrypted secrets show cipher text, not readable values
+```

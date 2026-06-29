@@ -52,7 +52,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Commands and Arguments in Docker and Kubernetes
 - [x] Environment Variables
 - [x] ConfigMaps
-- [ ] Secrets
+- [x] Secrets
 - [ ] Init Containers
 - [ ] Self-Healing Applications
 
