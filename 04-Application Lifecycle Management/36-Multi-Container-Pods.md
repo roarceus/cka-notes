@@ -45,6 +45,20 @@ spec:
 
 ---
 
+## Container Restart Behaviour (Important Nuance)
+
+`restartPolicy` applies at the **container level**, not the pod level. If one container in a multi-container pod exits, only that container is restarted per the policy — other containers keep running undisturbed.
+
+| Policy | Behaviour |
+|---|---|
+| `Always` (default) | Restarts container after any exit, regardless of exit code |
+| `OnFailure` | Restarts only on non-zero exit code |
+| `Never` | Never restarts |
+
+> Kubernetes does **not** restart the whole pod when one container fails — the pod is only recreated by its controller (Deployment, etc.) if the node dies or the pod is deleted.
+
+---
+
 ## Multi-Container Design Patterns
 
 There are three distinct patterns — easy to confuse the first and third, so pay attention to the difference.
@@ -63,27 +77,56 @@ spec:
 Use when there's no strict startup-order requirement.
 
 ### 2. Init Containers
-Run **before** the main app, then **exit**. Used for setup tasks (e.g. wait for a DB to be ready).
+Run **before** the main app, in the `initContainers` section. Each must succeed (**exit 0**) before the next one starts; once all complete, the regular containers start simultaneously.
 
 ```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
 spec:
   initContainers:
-  - name: init-wait-for-db
-    image: busybox
-    command: ['sh', '-c', 'wait-for-db.sh']
+  - name: init-myservice
+    image: busybox:1.31
+    command: ['sh', '-c', 'until nslookup myservice; do echo waiting for myservice; sleep 2; done;']
+  - name: init-mydb
+    image: busybox:1.31
+    command: ['sh', '-c', 'until nslookup mydb; do echo waiting for mydb; sleep 2; done;']
   containers:
-  - name: main-app
-    image: main-app
+  - name: myapp-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
 ```
 
 - Multiple init containers run **sequentially**, in the order listed
-- Each must complete successfully before the next (or the main container) starts
-- If an init container fails, the pod restarts it (per pod's `restartPolicy`)
+- If **any** init container fails, the **entire pod restarts** and all init containers rerun from the beginning
 
-### 3. Sidecar Containers (proper definition)
-Like an init container, but **keeps running** alongside the main app for the whole pod lifecycle. Starts first, runs throughout, and is terminated after the main app stops — so it can capture both startup and shutdown logs.
+### 3. Sidecar Containers — Native Support (Kubernetes v1.33+)
 
-> Mechanically this still uses the `initContainers`-style ordering, but the sidecar is configured with `restartPolicy: Always` so it doesn't exit after its initial run.
+Since **v1.33**, sidecars are natively supported — no more entrypoint hacks needed. Declared in `initContainers` but with `restartPolicy: Always` set **on the container itself**:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-example
+spec:
+  initContainers:
+  - name: sidecar-logger
+    image: busybox:1.31
+    restartPolicy: Always       # ← marks this as a native sidecar
+    command: ['sh', '-c', 'while true; do echo Sidecar running; sleep 10; done']
+  containers:
+  - name: main-app
+    image: busybox:1.31
+    command: ['sh', '-c', 'echo Main app starting; sleep 60']
+```
+
+Kubernetes treats this container as a sidecar: it starts first, runs alongside the main app for the full pod lifecycle, and shuts down after the main app completes.
+
+> Sidecar containers (with their own `restartPolicy: Always`) restart **regardless of the pod's restartPolicy** — this overrides the normal init container "fail once, rerun everything" behaviour.
 
 **Real-world example:** Elasticsearch + Kibana logging stack — a **Filebeat** sidecar starts before the main app (to capture startup logs) and keeps running until the main app terminates (to capture shutdown/error logs).
 
@@ -91,10 +134,10 @@ Like an init container, but **keeps running** alongside the main app for the who
 
 ## Co-located vs Sidecar — The Key Difference
 
-| | Co-located | Sidecar |
+| | Co-located | Native Sidecar |
 |---|---|---|
 | Startup order | ❌ No guarantee — both start together | ✅ Guaranteed — sidecar starts first |
-| Defined under | `containers` (as a 2nd item) | `initContainers` pattern with `restartPolicy: Always` |
+| Defined under | `containers` (as a 2nd item) | `initContainers` with `restartPolicy: Always` |
 | Use case | No ordering needed | Must capture full app lifecycle (startup → shutdown) |
 
 ---
@@ -104,3 +147,6 @@ Like an init container, but **keeps running** alongside the main app for the who
 > - All containers in the pod share `localhost` — no need for Service objects between them
 > - `kubectl logs <pod> -c <container-name>` to view logs from a specific container (see Managing Application Logs note)
 > - To add a container to a running pod: edit the pod's manifest and recreate it (most pod fields are immutable — see Manual Scheduling / editing notes)
+> - **Init containers run sequentially** — each must exit 0 before the next starts; one failure restarts the *whole pod* and reruns *all* init containers
+> - **Native sidecars (v1.33+)** are defined in `initContainers` but with `restartPolicy: Always` on the container itself — check the cluster version before assuming this feature is available
+> - `restartPolicy` is a **container-level** concept inside multi-container pods — one container failing doesn't restart its siblings
