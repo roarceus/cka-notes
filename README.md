@@ -53,6 +53,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Environment Variables
 - [x] ConfigMaps
 - [x] Secrets
+- [x] Multi Container Pods
 - [ ] Init Containers
 - [ ] Self-Healing Applications
 
