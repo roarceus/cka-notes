@@ -55,7 +55,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Secrets
 - [x] Multi Container Pods
 - [x] Autoscaling Introduction
-- [ ] Horizontal Pod Autoscaler
+- [x] Horizontal Pod Autoscaler
 - [ ] In Place Resize of Pods
 - [ ] Vertical Pod Autoscaling
 
