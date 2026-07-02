@@ -56,7 +56,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Multi Container Pods
 - [x] Autoscaling Introduction
 - [x] Horizontal Pod Autoscaler
-- [ ] In Place Resize of Pods
+- [x] In Place Resize of Pods
 - [ ] Vertical Pod Autoscaling
 
 ### 05 — Cluster Maintenance
