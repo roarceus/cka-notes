@@ -62,7 +62,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 ### 05 — Cluster Maintenance
 - [x] OS Upgrades
 - [x] Cluster Upgrade
-- [ ] Backup and Restore
+- [x] Backup and Restore
 
 ### 06 — Security
 - [ ] Kubernetes Security Primitives
