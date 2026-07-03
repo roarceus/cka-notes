@@ -60,7 +60,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Vertical Pod Autoscaler
 
 ### 05 — Cluster Maintenance
-- [ ] OS Upgrades
+- [x] OS Upgrades
 - [ ] Kubernetes Releases
 - [ ] Cluster Upgrade
 - [ ] Backup and Restore
