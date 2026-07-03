@@ -61,8 +61,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 
 ### 05 — Cluster Maintenance
 - [x] OS Upgrades
-- [ ] Kubernetes Releases
-- [ ] Cluster Upgrade
+- [x] Cluster Upgrade
 - [ ] Backup and Restore
 
 ### 06 — Security
