@@ -65,7 +65,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Backup and Restore
 
 ### 06 — Security
-- [ ] Kubernetes Security Primitives
+- [x] Kubernetes Security Primitives
 - [ ] Authentication
 - [ ] TLS Certificates
 - [ ] Certificate API
