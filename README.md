@@ -67,7 +67,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 ### 06 — Security
 - [x] Kubernetes Security Primitives
 - [x] Authentication
-- [ ] TLS Certificates
+- [x] TLS Certificates
 - [ ] Certificate API
 - [ ] KubeConfig
 - [ ] RBAC
