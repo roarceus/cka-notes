@@ -69,7 +69,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Authentication
 - [x] TLS Certificates
 - [x] Certificate API
-- [ ] KubeConfig
+- [x] KubeConfig
 - [ ] RBAC
 - [ ] Cluster Roles
 - [ ] Service Accounts
