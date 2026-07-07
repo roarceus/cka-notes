@@ -68,7 +68,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Kubernetes Security Primitives
 - [x] Authentication
 - [x] TLS Certificates
-- [ ] Certificate API
+- [x] Certificate API
 - [ ] KubeConfig
 - [ ] RBAC
 - [ ] Cluster Roles
