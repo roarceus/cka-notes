@@ -73,7 +73,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] API Groups
 - [x] Authorization
 - [x] RBAC
-- [ ] Cluster Roles
+- [x] Cluster Roles
 - [ ] Service Accounts
 - [ ] Image Security
 - [ ] Network Policies
