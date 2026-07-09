@@ -71,8 +71,8 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Certificate API
 - [x] KubeConfig
 - [x] API Groups
-- [ ] Authorization
-- [ ] RBAC
+- [x] Authorization
+- [x] RBAC
 - [ ] Cluster Roles
 - [ ] Service Accounts
 - [ ] Image Security
