@@ -75,7 +75,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] RBAC
 - [x] Cluster Roles
 - [x] Service Accounts
-- [ ] Image Security
+- [x] Image Security
 - [ ] Network Policies
 
 ### 07 — Storage
