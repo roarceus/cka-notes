@@ -76,6 +76,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Cluster Roles
 - [x] Service Accounts
 - [x] Image Security
+- [x] Security Contexts
 - [ ] Network Policies
 
 ### 07 — Storage
