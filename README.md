@@ -77,7 +77,8 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Service Accounts
 - [x] Image Security
 - [x] Security Contexts
-- [ ] Network Policies
+- [x] Network Policies
+- [ ] Developing Network Policies
 
 ### 07 — Storage
 - [ ] Volumes
