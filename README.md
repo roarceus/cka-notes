@@ -78,7 +78,10 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Image Security
 - [x] Security Contexts
 - [x] Network Policies
-- [ ] Developing Network Policies
+- [x] Developing Network Policies
+- [ ] Custom Resource Definition (CRD)
+- [ ] Custom Controllers
+- [ ] Operator Framework
 
 ### 07 — Storage
 - [ ] Volumes
