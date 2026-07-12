@@ -81,7 +81,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Developing Network Policies
 - [x] Custom Resource Definition (CRD)
 - [x] Custom Controllers
-- [ ] Operator Framework
+- [x] Operator Framework
 
 ### 07 — Storage
 - [ ] Volumes
