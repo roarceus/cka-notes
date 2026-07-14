@@ -87,7 +87,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Storage in Docker
 - [x] Container Storage Interface
 - [x] Volumes
-- [ ] Persistent Volumes
+- [x] Persistent Volumes
 - [ ] Persistent Volume Claims
 - [ ] Storage Classes
 
