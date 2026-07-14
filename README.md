@@ -88,7 +88,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Container Storage Interface
 - [x] Volumes
 - [x] Persistent Volumes
-- [ ] Persistent Volume Claims
+- [x] Persistent Volume Claims
 - [ ] Storage Classes
 
 ### 08 — Networking
