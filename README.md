@@ -85,8 +85,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 
 ### 07 — Storage
 - [x] Storage in Docker
-- [ ] Volume Driver Plugins in Docker
-- [ ] Container Storage Interface
+- [x] Container Storage Interface
 - [ ] Volumes
 - [ ] Persistent Volumes
 - [ ] Persistent Volume Claims

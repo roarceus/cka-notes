@@ -58,6 +58,27 @@ Manage the layered filesystem and copy-on-write mechanism. Docker selects the be
 
 ---
 
+## Storage Drivers vs Volume Driver Plugins
+
+| | Storage Drivers | Volume Driver Plugins |
+|---|---|---|
+| Manages | Image layers + container writable layer | Persistent volumes |
+| Examples | `overlay2`, `aufs`, `devicemapper` | `local`, `rexray/ebs`, `convoy`, `portworx` |
+| Default | `overlay2` | `local` (stores in `/var/lib/docker/volumes/`) |
+
+Volume driver plugins allow volumes to be backed by **third-party storage** (AWS EBS, GCP Persistent Disk, NetApp, Azure File Storage, etc.):
+
+```bash
+# Use Rex Ray EBS driver to provision volume from AWS EBS
+docker run -it \
+  --name mysql \
+  --volume-driver rexray/ebs \
+  --mount src=ebs-vol,target=/var/lib/mysql \
+  mysql
+```
+
+---
+
 > [!tip] CKA Exam
 > - Container writable layer is **ephemeral** — data is lost when container is removed
 > - Volumes persist beyond the container lifecycle — use them for databases and stateful data
