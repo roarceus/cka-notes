@@ -89,7 +89,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Volumes
 - [x] Persistent Volumes
 - [x] Persistent Volume Claims
-- [ ] Storage Classes
+- [x] Storage Classes
 
 ### 08 — Networking
 - [ ] Networking Basics
