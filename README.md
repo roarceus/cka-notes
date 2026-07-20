@@ -92,12 +92,19 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Storage Classes
 
 ### 08 — Networking
-- [ ] Networking Basics
-- [ ] CNI
+- [x] Prerequisite Switching Routing Gateways CNI in Kubernetes
+- [ ] Prerequisite DNS
+- [ ] Prerequisite Network Namespaces
+- [ ] Prerequisite Docker Networking
+- [ ] Prerequisite CNI
+- [ ] Cluster Networking
 - [ ] Pod Networking
+- [ ] CNI in Kubernetes
 - [ ] Service Networking
-- [ ] DNS
+- [ ] DNS in Kubernetes
+- [ ] CoreDNS in Kubernetes
 - [ ] Ingress
+- [ ] Introduction to Gateway API
 
 ### 09 — Troubleshooting
 - [ ] Application Failure
