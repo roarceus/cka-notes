@@ -96,7 +96,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Prerequisite DNS
 - [x] Prerequisite CoreDNS
 - [x] Prerequisite Network Namespaces
-- [ ] Prerequisite Docker Networking
+- [x] Prerequisite Docker Networking
 - [ ] Prerequisite CNI
 - [ ] Cluster Networking
 - [ ] Pod Networking
