@@ -93,7 +93,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 
 ### 08 — Networking
 - [x] Prerequisite Switching Routing Gateways CNI in Kubernetes
-- [ ] Prerequisite DNS
+- [x] Prerequisite DNS
 - [ ] Prerequisite Network Namespaces
 - [ ] Prerequisite Docker Networking
 - [ ] Prerequisite CNI
