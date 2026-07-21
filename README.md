@@ -99,8 +99,8 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Prerequisite Docker Networking
 - [x] Prerequisite CNI
 - [x] Cluster Networking
-- [ ] Pod Networking
-- [ ] CNI in Kubernetes
+- [x] Pod Networking
+- [x] CNI in Kubernetes
 - [ ] Service Networking
 - [ ] DNS in Kubernetes
 - [ ] CoreDNS in Kubernetes
