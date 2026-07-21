@@ -29,11 +29,12 @@ Every node must have:
 
 ```bash
 # Network interfaces and IPs
-ip link
+ip link (ip link show eth0)
+ip a
 ip addr
 
 # Routing table
-ip route
+ip route (ip route show default)
 
 # IP forwarding status (must be 1 on all nodes)
 cat /proc/sys/net/ipv4/ip_forward
@@ -44,6 +45,7 @@ arp
 # Active listening ports and which process owns them
 netstat -plnt
 ss -tlnp          # modern alternative to netstat
+netstat -anp
 ```
 
 ---
