@@ -30,8 +30,8 @@ Every node must have:
 ```bash
 # Network interfaces and IPs
 ip link (ip link show eth0)
-ip a
-ip addr
+ip address / ip addr / ip a
+ip a show type bridge
 
 # Routing table
 ip route (ip route show default)
