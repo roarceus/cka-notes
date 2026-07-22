@@ -101,7 +101,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Cluster Networking
 - [x] Pod Networking
 - [x] CNI in Kubernetes
-- [ ] Service Networking
+- [x] Service Networking
 - [ ] DNS in Kubernetes
 - [ ] CoreDNS in Kubernetes
 - [ ] Ingress
