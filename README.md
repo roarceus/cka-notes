@@ -102,7 +102,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Pod Networking
 - [x] CNI in Kubernetes
 - [x] Service Networking
-- [ ] DNS in Kubernetes
+- [x] DNS in Kubernetes
 - [ ] CoreDNS in Kubernetes
 - [ ] Ingress
 - [ ] Introduction to Gateway API
