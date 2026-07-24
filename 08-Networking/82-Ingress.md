@@ -236,9 +236,74 @@ spec:
 
 ---
 
+## API Version Changes: `extensions/v1beta1` vs `networking.k8s.io/v1`
+
+The newer `networking.k8s.io/v1` API replaces `serviceName`/`servicePort` with a nested `service.name`/`service.port.number`, and requires `pathType` on every path:
+
+```yaml
+# Old: extensions/v1beta1
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /wear
+        backend:
+          serviceName: wear-service
+          servicePort: 80
+      - path: /watch
+        backend:
+          serviceName: watch-service
+          servicePort: 80
+```
+
+```yaml
+# New: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /wear
+        pathType: Prefix
+        backend:
+          service:
+            name: wear-service
+            port:
+              number: 80
+      - path: /watch
+        pathType: Prefix
+        backend:
+          service:
+            name: watch-service
+            port:
+              number: 80
+```
+
+## Creating an Ingress Imperatively (k8s 1.20+)
+
+```bash
+kubectl create ingress <ingress-name> --rule="host/path=service:port"
+```
+
+Example:
+```bash
+kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear*=wear-service:80"
+```
+
+---
+
 > [!tip] CKA Exam
 > - **Path-based routing** = one rule, multiple `paths`. **Domain-based routing** = multiple rules, each with its own `host`
 > - No `host` specified in a rule → it matches **all incoming traffic** regardless of domain
 > - An Ingress controller must be deployed first — Ingress resources alone do nothing
 > - Know the difference between a single-backend Ingress (`spec.backend`) vs rule-based Ingress (`spec.rules`)
 > - `kubectl describe ingress <name>` is the fastest way to check configured rules and backends
+> - `networking.k8s.io/v1` requires **`pathType`** (`Prefix`/`Exact`/`ImplementationSpecific`) and nests the backend under **`service.name`/`service.port.number`** — the older `serviceName`/`servicePort` fields belong to `extensions/v1beta1`
+> - Imperative creation: `kubectl create ingress <name> --rule="host/path=service:port"`
