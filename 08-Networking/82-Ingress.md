@@ -299,6 +299,73 @@ kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear*=wear-
 
 ---
 
+## Annotations: `rewrite-target`
+
+- Ingress controllers (NGINX, etc.) expose controller-specific behavior via **annotations** — e.g. NGINX's `rewrite-target`
+- Problem: the backend app doesn't know about the path prefix used for routing. E.g. `watch-service` serves its page at `/`, not `/watch` — so without a rewrite, a request to `/watch` gets forwarded as `/watch` to the backend and 404s:
+
+```
+http://<ingress-service>:<port>/watch  -->  http://<watch-service>:<port>/watch   ❌ 404
+```
+
+- `rewrite-target` does a **search-and-replace** on the URL before forwarding: it replaces whatever matched `rules.http.paths.path` with the `rewrite-target` value, so the backend gets the path it actually expects:
+
+```
+http://<ingress-service>:<port>/watch  -->  http://<watch-service>:<port>/   ✅
+```
+
+### Simple replace: `/pay` → `/`
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress
+  namespace: critical-space
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /pay
+        pathType: Prefix
+        backend:
+          service:
+            name: pay-service
+            port:
+              number: 8282
+```
+Here, `replace("/pay", "/")` — anything under `/pay` gets forwarded to `pay-service` at `/`.
+
+### Capture-group replace: preserving the rest of the path
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rewrite
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: rewrite.bar.com
+    http:
+      paths:
+      - path: /something(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: http-svc
+            port:
+              number: 80
+```
+- The path is a regex with two capture groups: `(/|$)` and `(.*)`
+- `rewrite-target: /$2` forwards only what matched the **2nd capture group** — e.g. `/something/foo` → forwarded as `/foo`, while `/something` (nothing after) → forwarded as `/`
+
+---
+
 > [!tip] CKA Exam
 > - **Path-based routing** = one rule, multiple `paths`. **Domain-based routing** = multiple rules, each with its own `host`
 > - No `host` specified in a rule → it matches **all incoming traffic** regardless of domain
@@ -307,3 +374,5 @@ kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear*=wear-
 > - `kubectl describe ingress <name>` is the fastest way to check configured rules and backends
 > - `networking.k8s.io/v1` requires **`pathType`** (`Prefix`/`Exact`/`ImplementationSpecific`) and nests the backend under **`service.name`/`service.port.number`** — the older `serviceName`/`servicePort` fields belong to `extensions/v1beta1`
 > - Imperative creation: `kubectl create ingress <name> --rule="host/path=service:port"`
+> - **`rewrite-target`** annotation does a search-and-replace on the matched path before forwarding to the backend — essential when the backend app doesn't know about the ingress path prefix (e.g. `/watch`, `/pay`)
+> - Annotations are **controller-specific** (here, NGINX) — they won't work the same way, or at all, on a different Ingress controller
