@@ -105,7 +105,8 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] DNS in Kubernetes
 - [x] CoreDNS in Kubernetes
 - [x] Ingress
-- [ ] Introduction to Gateway API
+- [x] Introduction to Gateway API
+- [ ] Gateway API Practical Guide
 
 ### 09 — Troubleshooting
 - [ ] Application Failure

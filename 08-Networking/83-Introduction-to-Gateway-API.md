@@ -1,0 +1,229 @@
+# Introduction to Gateway API
+
+## Limitations of Ingress
+
+- **Multi-tenancy**: a single Ingress resource can only really be managed by one team — if team A owns a web service and team B owns a video service, they must coordinate changes on the same object
+- **Limited native routing**: Ingress natively supports only HTTP-based host/path matching — no native TCP/UDP support, no traffic splitting, header manipulation, auth, or rate limiting
+- Advanced features require **controller-specific annotations**, which:
+  - Are not portable between controllers (NGINX vs Traefik configs look completely different for the same use case)
+  - Can't be validated by Kubernetes itself, since Kubernetes doesn't understand the annotation syntax
+
+Example — NGINX SSL redirect annotations:
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  rules:
+  - host: wear.my-online-store.com
+    http:
+      paths:
+      - path: /foo
+        backend:
+          serviceName: wear-service
+          servicePort: 80
+```
+
+Same CORS use case, different annotations per controller (NGINX vs Traefik):
+```yaml
+# NGINX
+annotations:
+  nginx.ingress.kubernetes.io/enable-cors: "true"
+  nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST"
+```
+```yaml
+# Traefik
+annotations:
+  traefik.ingress.kubernetes.io/headers.customresponseheaders: |
+    Access-Control-Allow-Origin: '*'
+```
+
+---
+
+## The Gateway API
+
+- An official Kubernetes project designed to replace/extend Ingress
+- Supports both **layer 4** (TCP/UDP) and **layer 7** (HTTP) routing
+- Splits responsibilities across **three object types**, each owned by a different persona:
+
+| Object | Managed by | Purpose |
+|---|---|---|
+| **GatewayClass** | Infrastructure provider | Defines the underlying load balancer/controller implementation |
+| **Gateway** | Cluster operator | An instance of a GatewayClass — defines listeners (ports/protocols) |
+| **HTTPRoute** (or other route types) | Application developer | Routing rules — HTTP, TCP, gRPC, etc. — attached to a Gateway |
+
+- Configuration is **declarative and controller-agnostic** — no vendor-specific annotations needed
+
+![Table of Gateway API objects, OSI layers, routing discriminators, TLS support, and purpose](https://kodekloud.com/kk-media/image/upload/v1752869853/notes-assets/images/CKA-Certification-Course-Certified-Kubernetes-Administrator-Introduction-to-Gateway-API-2025-Updates/gateway-api-objects-table.jpg)
+
+### Basic example
+
+```yaml
+# gateway-class.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: example-class
+spec:
+  controllerName: example.com/gateway-controller
+```
+
+```yaml
+# gateway.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: example-gateway
+spec:
+  gatewayClassName: example-class
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+```
+
+```yaml
+# http-route.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: example-httproute
+spec:
+  parentRefs:
+    - name: example-gateway
+  hostnames:
+    - "www.example.com"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /login
+      backendRefs:
+        - name: example-svc
+          port: 8080
+```
+Routes requests to `www.example.com/login*` to `example-svc:8080`.
+
+---
+
+## TLS Configuration
+
+- Ingress: TLS is set via `spec.tls`, usually paired with controller annotations for HTTPS redirect
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: secure-app
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - secure.example.com
+      secretName: tls-secret
+```
+
+- Gateway API: TLS is defined structurally on the **listener** itself
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: secure-gateway
+spec:
+  gatewayClassName: example-gc
+  listeners:
+    - name: https
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: tls-secret
+  allowedRoutes:
+    kinds:
+      - kind: HTTPRoute
+```
+- `allowedRoutes` restricts which route kinds (e.g. only `HTTPRoute`) can attach to that listener
+
+---
+
+## Traffic Splitting / Canary Deployments
+
+- Ingress needs controller annotations for canary routing:
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: canary-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "20"
+```
+
+- Gateway API supports **weighted traffic splitting natively** in an HTTPRoute, no annotations required:
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: split-traffic
+spec:
+  parentRefs:
+    - name: app-gateway
+  rules:
+    - backendRefs:
+        - name: app-v1
+          port: 80
+          weight: 80
+        - name: app-v2
+          port: 80
+          weight: 20
+```
+`app-v1` gets 80% of traffic, `app-v2` gets 20%.
+
+---
+
+## Centralized Advanced Config (e.g. CORS)
+
+Gateway API expresses CORS as a **filter** on the HTTPRoute — consistent across controllers, no annotations:
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cors-route
+spec:
+  parentRefs:
+    - name: my-gateway
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      filters:
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            add:
+              - name: Access-Control-Allow-Origin
+                value: "*"
+  backendRefs:
+    - name: api-service
+```
+
+---
+
+## Controller Support
+
+- Broadly adopted across major platforms/controllers: Amazon EKS, Azure Application Gateway for Containers, Contour, Envoy, GKE, HAProxy, Istio, Kong, Kuma, NGINX, and more
+
+---
+
+> [!tip] CKA Exam
+> - Gateway API's three core objects: **GatewayClass** (infra provider) → **Gateway** (cluster operator, defines listeners) → **HTTPRoute** (app developer, defines routing rules)
+> - Gateway API supports layer 4 **and** layer 7 routing; Ingress is HTTP-only (layer 7)
+> - Advanced features (traffic splitting, CORS, header manipulation) are **native** in Gateway API vs requiring **controller-specific annotations** in Ingress
+> - TLS is configured on the **Gateway listener** (`tls.certificateRefs`), not as a top-level `spec.tls` block like Ingress
+> - `allowedRoutes` on a listener restricts which route kinds can attach to it
