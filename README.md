@@ -108,7 +108,22 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Introduction to Gateway API
 - [x] Gateway API Practical Guide
 
-### 09 — Troubleshooting
+### 09 — Design and Install a Kubernetes Cluster
+- [x] Design a Kubernetes Cluster
+- [ ] Choosing Kubernetes Infrastructure
+- [ ] Configure High Availability
+- [ ] ETCD in HA
+
+### 10 — Install "Kubernetes the kubeadm way"
+To be Updated
+
+### 11 — Helm Basics
+To be Updated
+
+### 12 — Kustomize Basics
+To be Updated
+
+### 13 — Troubleshooting
 - [ ] Application Failure
 - [ ] Control Plane Failure
 - [ ] Worker Node Failure
