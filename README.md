@@ -110,8 +110,8 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 
 ### 09 — Design and Install a Kubernetes Cluster
 - [x] Design a Kubernetes Cluster
-- [ ] Choosing Kubernetes Infrastructure
-- [ ] Configure High Availability
+- [x] Choosing Kubernetes Infrastructure
+- [x] Configure High Availability
 - [ ] ETCD in HA
 
 ### 10 — Install "Kubernetes the kubeadm way"
