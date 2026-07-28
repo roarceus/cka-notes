@@ -115,7 +115,9 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] ETCD in HA
 
 ### 10 — Install "Kubernetes the kubeadm way"
-To be Updated
+- [x] Deployment with kubeadm - Introduction
+- [x] Deployment with kubeadm - Provision VMs with Vagrant
+- [ ] Deployment with kubeadm
 
 ### 11 — Helm Basics
 To be Updated
