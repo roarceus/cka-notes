@@ -125,7 +125,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] A Quick Note on Helm2 vs Helm3
 - [x] Helm Components
 - [x] Helm Charts
-- [ ] Working with Helm - Basics
+- [x] Working with Helm - Basics
 - [ ] Customizing Chart Parameters
 - [ ] Lifecycle Management with Helm
 
