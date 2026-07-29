@@ -127,7 +127,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Helm Charts
 - [x] Working with Helm - Basics
 - [x] Customizing Chart Parameters
-- [ ] Lifecycle Management with Helm
+- [x] Lifecycle Management with Helm
 
 ### 12 — Kustomize Basics
 To be Updated
