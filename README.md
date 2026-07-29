@@ -124,9 +124,9 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Installation and Configuration
 - [x] A Quick Note on Helm2 vs Helm3
 - [x] Helm Components
-- [ ] Helm Charts
+- [x] Helm Charts
 - [ ] Working with Helm - Basics
-- [ ] Customize Chart Parameters
+- [ ] Customizing Chart Parameters
 - [ ] Lifecycle Management with Helm
 
 ### 12 — Kustomize Basics
