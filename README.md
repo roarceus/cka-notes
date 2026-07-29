@@ -117,10 +117,17 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 ### 10 — Install "Kubernetes the kubeadm way"
 - [x] Deployment with kubeadm - Introduction
 - [x] Deployment with kubeadm - Provision VMs with Vagrant
-- [ ] Deployment with kubeadm
+- [x] Deployment with kubeadm
 
 ### 11 — Helm Basics
-To be Updated
+- [x] Helm - Introduction
+- [ ] Installation and Configuration
+- [ ] A Quick Note on Helm2 vs Helm3
+- [ ] Helm Components
+- [ ] Helm Charts
+- [ ] Working with Helm - Basics
+- [ ] Customize Chart Parameters
+- [ ] Lifecycle Management with Helm
 
 ### 12 — Kustomize Basics
 To be Updated
