@@ -121,7 +121,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 
 ### 11 — Helm Basics
 - [x] Helm - Introduction
-- [ ] Installation and Configuration
+- [x] Installation and Configuration
 - [ ] A Quick Note on Helm2 vs Helm3
 - [ ] Helm Components
 - [ ] Helm Charts
