@@ -131,8 +131,8 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 
 ### 12 — Kustomize Basics
 - [x] Kustomize Problem Statement and Ideology
-- [ ] Kustomize vs Helm
-- [ ] Installation/Setup
+- [x] Kustomize vs Helm
+- [x] Installation/Setup
 - [ ] The kustomization.yaml File
 - [ ] Kustomize Output
 - [ ] Kustomize ApiVersion and Kind
