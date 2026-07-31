@@ -130,7 +130,23 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Lifecycle Management with Helm
 
 ### 12 — Kustomize Basics
-To be Updated
+- [x] Kustomize Problem Statement and Ideology
+- [ ] Kustomize vs Helm
+- [ ] Installation/Setup
+- [ ] The kustomization.yaml File
+- [ ] Kustomize Output
+- [ ] Kustomize ApiVersion and Kind
+- [ ] Managing Directories
+- [ ] Managing Directories Demo
+- [ ] Common Transformers
+- [ ] Image Transformers
+- [ ] Transformers Demo
+- [ ] Patches Intro
+- [ ] Differect Types of Patches
+- [ ] Patches Dictionary
+- [ ] Patches List
+- [ ] Overlays
+- [ ] Components
 
 ### 13 — Troubleshooting
 - [ ] Application Failure
