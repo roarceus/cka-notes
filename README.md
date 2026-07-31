@@ -134,8 +134,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Kustomize vs Helm
 - [x] Installation/Setup
 - [x] The kustomization.yaml File
-- [ ] Kustomize Output
-- [ ] Kustomize ApiVersion and Kind
+- [x] Kustomize Output
 - [ ] Managing Directories
 - [ ] Managing Directories Demo
 - [ ] Common Transformers

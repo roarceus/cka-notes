@@ -29,6 +29,24 @@ commonLabels:
 
 ---
 
+## apiVersion and kind
+
+Like any other Kubernetes resource file, `kustomization.yaml` supports `apiVersion` and `kind` fields:
+
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - nginx-deployment.yaml
+  - nginx-service.yaml
+```
+
+- Both are technically **optional** — Kustomize falls back to default values if omitted
+- Recommended to set them explicitly anyway, as a safeguard against future breaking changes
+
+---
+
 ## Building the Output
 
 ```bash
@@ -50,3 +68,4 @@ kustomize build k8s/ | kubectl apply -f -
 > - `kustomization.yaml` has (at minimum) a `resources` list and any transformations (e.g. `commonLabels`)
 > - `kustomize build <dir>` only **renders** output — it doesn't apply anything; pipe it to `kubectl apply -f -` to actually deploy
 > - Also usable natively via `kubectl apply -k <dir>` (kubectl's built-in Kustomize support), without needing the separate `kustomize build` + pipe step
+> - `apiVersion`/`kind` in `kustomization.yaml` are optional (defaults apply) but recommended to set explicitly
