@@ -136,7 +136,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] The kustomization.yaml File
 - [x] Kustomize Output
 - [x] Managing Directories
-- [ ] Managing Directories Demo
+- [x] Managing Directories Demo
 - [ ] Common Transformers
 - [ ] Image Transformers
 - [ ] Transformers Demo
