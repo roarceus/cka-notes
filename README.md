@@ -133,7 +133,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Kustomize Problem Statement and Ideology
 - [x] Kustomize vs Helm
 - [x] Installation/Setup
-- [ ] The kustomization.yaml File
+- [x] The kustomization.yaml File
 - [ ] Kustomize Output
 - [ ] Kustomize ApiVersion and Kind
 - [ ] Managing Directories
