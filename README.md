@@ -140,7 +140,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Common Transformers
 - [x] Image Transformers
 - [x] Transformers Demo
-- [ ] Patches Intro
+- [x] Patches Intro
 - [ ] Differect Types of Patches
 - [ ] Patches Dictionary
 - [ ] Patches List
