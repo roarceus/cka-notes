@@ -141,7 +141,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Image Transformers
 - [x] Transformers Demo
 - [x] Patches Intro
-- [ ] Differect Types of Patches
+- [x] Differect Types of Patches
 - [ ] Patches Dictionary
 - [ ] Patches List
 - [ ] Overlays
