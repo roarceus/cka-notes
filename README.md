@@ -143,7 +143,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Patches Intro
 - [x] Differect Types of Patches
 - [x] Patches Dictionary
-- [ ] Patches List
+- [x] Patches List
 - [ ] Overlays
 - [ ] Components
 
