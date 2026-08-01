@@ -137,7 +137,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Kustomize Output
 - [x] Managing Directories
 - [x] Managing Directories Demo
-- [ ] Common Transformers
+- [x] Common Transformers
 - [ ] Image Transformers
 - [ ] Transformers Demo
 - [ ] Patches Intro
