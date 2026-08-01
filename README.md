@@ -145,7 +145,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Patches Dictionary
 - [x] Patches List
 - [x] Overlays
-- [ ] Components
+- [x] Components
 
 ### 13 — Troubleshooting
 - [ ] Application Failure
