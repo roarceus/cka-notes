@@ -144,7 +144,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Differect Types of Patches
 - [x] Patches Dictionary
 - [x] Patches List
-- [ ] Overlays
+- [x] Overlays
 - [ ] Components
 
 ### 13 — Troubleshooting
