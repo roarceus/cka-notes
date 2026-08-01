@@ -139,7 +139,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 - [x] Managing Directories Demo
 - [x] Common Transformers
 - [x] Image Transformers
-- [ ] Transformers Demo
+- [x] Transformers Demo
 - [ ] Patches Intro
 - [ ] Differect Types of Patches
 - [ ] Patches Dictionary
