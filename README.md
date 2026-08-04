@@ -150,7 +150,7 @@ Notes are concise and exam-focused — each file covers the key concepts, comman
 ### 13 — Troubleshooting
 - [x] Application Failure
 - [x] Control Plane Failure
-- [ ] Worker Node Failure
+- [x] Worker Node Failure
 - [ ] Network Troubleshooting
 
 ---
