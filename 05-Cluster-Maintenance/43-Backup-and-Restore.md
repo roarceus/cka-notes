@@ -90,6 +90,103 @@ service kube-apiserver start   # non-kubeadm only
 
 ---
 
+## Complete Restore Process (kubeadm, step-by-step)
+
+A more thorough version of the restore above, specifically for kubeadm clusters where all control plane components run as **static pods**. Moving a static pod's manifest out of `/etc/kubernetes/manifests/` stops it (kubelet removes the pod); moving it back starts it again.
+
+### Step 1 — Stop the kube-apiserver
+```bash
+mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp/
+sleep 30
+```
+- Prevents the API server from writing to etcd while the restore is in progress
+
+### Step 2 — Restore the etcd snapshot
+```bash
+etcdutl snapshot restore /opt/snapshot-pre-boot.db --data-dir /var/lib/etcd-from-backup
+```
+Expected output includes lines like:
+```
+info  snapshot/v3_snapshot.go:265  restoring snapshot
+info  membership/store.go:141      Trimming membership information
+info  membership/cluster.go:421    added member
+info  snapshot/v3_snapshot.go:293  restored snapshot
+```
+
+### Step 3 — Update the etcd configuration
+```bash
+vi /etc/kubernetes/manifests/etcd.yaml
+```
+Update the `volumes` section to point at the restored data directory:
+
+```yaml
+# From:
+volumes:
+  - hostPath:
+      path: /etc/kubernetes/pki/etcd
+      type: DirectoryOrCreate
+    name: etcd-certs
+  - hostPath:
+      path: /var/lib/etcd          # OLD directory
+      type: DirectoryOrCreate
+    name: etcd-data
+```
+```yaml
+# To:
+volumes:
+  - hostPath:
+      path: /etc/kubernetes/pki/etcd
+      type: DirectoryOrCreate
+    name: etcd-certs
+  - hostPath:
+      path: /var/lib/etcd-from-backup   # NEW restored directory
+      type: DirectoryOrCreate
+    name: etcd-data
+```
+- Saving this file restarts the etcd static pod automatically
+
+### Step 4 — Restart the kube-apiserver
+```bash
+mv /tmp/kube-apiserver.yaml /etc/kubernetes/manifests/
+```
+- Wait ~60 seconds for it to come back up
+
+### Step 5 — Restart other control plane components
+```bash
+# kube-controller-manager
+mv /etc/kubernetes/manifests/kube-controller-manager.yaml /tmp/
+sleep 20
+mv /tmp/kube-controller-manager.yaml /etc/kubernetes/manifests/
+
+# kube-scheduler
+mv /etc/kubernetes/manifests/kube-scheduler.yaml /tmp/
+sleep 20
+mv /tmp/kube-scheduler.yaml /etc/kubernetes/manifests/
+
+# kubelet
+systemctl restart kubelet
+```
+
+### Step 6 — Monitor the restart
+```bash
+watch crictl ps
+```
+- All components should show `STATUS = Running`
+- The whole process typically takes **2–3 minutes**
+
+### Step 7 — Verify the restore
+```bash
+kubectl get deployments,services --all-namespaces
+kubectl get pods --all-namespaces
+kubectl get nodes
+```
+- You should see all resources that existed at the time the snapshot was taken
+
+> [!tip] CKA Exam
+> The move-out/`sleep`/move-back pattern (`mv <manifest> /tmp/` → wait → `mv /tmp/<manifest> <path>`) is a reliable way to force kubelet to stop and restart any static pod — useful beyond just backup/restore scenarios.
+
+---
+
 ## Alternative: File-level Backup with etcdutl
 
 Works offline — copies the raw etcd data and WAL files without connecting to a running etcd:
@@ -132,3 +229,4 @@ Common paths on kubeadm clusters:
 > - After restore, update the `--data-dir` flag **and** the corresponding `hostPath` volume in the etcd manifest
 > - `kubectl get all` doesn't capture everything — CustomResourceDefinitions, PersistentVolumes, etc. are missed; etcd snapshot is the only truly complete backup
 > - For managed clusters (EKS, GKE, AKS), use `kubectl get all -o yaml` — etcd is not directly accessible
+> - On kubeadm clusters, stop the kube-apiserver **before** restoring (move its manifest out of `/etc/kubernetes/manifests/`), restore etcd, update `etcd.yaml`'s `hostPath`, then bring the apiserver (and other control plane components) back one at a time
